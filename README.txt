@@ -3,7 +3,7 @@ Contributors: podpirate
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=QFR9BVRT6SEP6
 Tags: ecommerce, woocommerce, payment gateway, fee
 Requires at least: 3.5
-Tested up to: 3.9
+Tested up to: 4.0-beta3
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -16,7 +16,7 @@ Setup individual charges for each payment method in woocommerce.
 Add individual charges for each payment method as a flat rate and/or as a percentage of the cart total.
 The plugin first calculates the percentage rate and then adds the fixed rate on top.
 
-Tested with woocommerce 2.0.14 up to 2.1.7.
+Requires at least woocommerce 2.1.
 
 = Features =
 - Fixed charge and/or a percentage of cart total
@@ -27,13 +27,12 @@ Tested with woocommerce 2.0.14 up to 2.1.7.
 - Coupons are not supported.
 - Better not use it wih paypal. (Legal issue, see FAQ as well.)
 
-Latest files on [GitHub](https://github.com/mcguffin/woocommerce-payforpayment).
+Latest files on [GitHub](http://codex.wordpress.org/Managing_Plugins).
 
 
 == Installation ==
 
-Just follow the standard [WordPress plugin installation procedere](https://github.com/mcguffin/woocommerce-payforpayment).
-
+Just follow the standard [WordPress plugin installation procedere](http://codex.wordpress.org/Managing_Plugins).
 
 == Frequently asked questions ==
 
@@ -49,7 +48,9 @@ The plugin user interface only offers either a fixed amout or a percentage of th
 If you need to implement more complex calcuations like 'no charges for orders above 100 Bucks' or '2% of cart subtotal but at least 2 Bucks', 
 you'll have to use one of the filters. See [Plugin API](https://github.com/mcguffin/woocommerce-payforpayment#plugin-api) for details.
 
-<code>woocommerce_pay4pay_applyfor_{$payment_gateway_id}</code> specifies if a charge will be applied.
+<code>woocommerce_pay4pay_apply</code> specifies if a charge will be applied.
+
+<code>woocommerce_pay4pay_applyfor_{$payment_gateway_id}</code> specifies if a charge will be applied on a certain payment method.
 
 <code>woocommerce_pay4pay_{$payment_gateway_id}_amount</code> allows you to alter the amount of the charge being added.
 
@@ -83,11 +84,27 @@ Either post it on [GitHub](https://github.com/mcguffin/wp-access-areas) or—if 
 
 == Changelog ==
 
+= 1.2.5 =
+Fix: incorrect fee calculation.
+
+= 1.2.3 =
+Fix: Safely Restrict payment fee to 2 Decimals.
+
+= 1.2.2 =
+Fix: [Calculate taxes](http://wordpress.org/support/topic/cant-use-the-plugin-generate-false-amount-in-adding)
+Fix: cart contents taxes and shipping taxes included into fee calculation
+Refactoring: Discard cart_has_fee() check, as it is already done by woocommerce
+
+= 1.2.1 =
+Feature: [Calculate custom fee](http://wordpress.org/support/topic/not-calculating-custom-fees)
+
 = 1.2.0 =
 - Feature: add option to disable payment fee when free shipping is selected
 - Feature: add pay4pay column in woocommerce checkout settings
 - Plugin-API: add filter `woocommerce_pay4pay_apply`
-- Code Refactoring: separated admin UI from frontend to keep things lean
+- Code Refactoring: separated admin UI from frontend to keep things lean.
+- Code Refactoring: use function <code>WC()</code> (available since WC 2.1) in favour of <code>global $woocommerce</code>.
+- Compatibility: requires at least WC 2.1.x, 
 
 = 1.1.1 =
 - Added wpml configuration file to keep compatibility with http://wordpress.org/plugins/woocommerce-multilingual/
@@ -105,3 +122,7 @@ Fix plugin URL
 
 = 1.0.0 =
 Initial release
+
+
+== Upgrade notice ==
+
