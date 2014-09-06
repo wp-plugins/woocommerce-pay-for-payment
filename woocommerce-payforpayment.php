@@ -3,7 +3,7 @@
 Plugin Name: WooCommerce Pay for Payment
 Plugin URI: http://wordpress.org/plugins/woocommerce-pay-for-payment
 Description: Setup individual charges for each payment method in woocommerce.
-Version: 1.3.0
+Version: 1.3.1
 Author: Jörn Lund
 Author URI: https://github.com/mcguffin
 License: GPL
@@ -47,7 +47,7 @@ class Pay4Pay {
 	}
 
 	private function __construct() {
-		load_plugin_textdomain( 'pay4pay' , false, dirname( plugin_basename( __FILE__ )) . '/lang' );
+		load_plugin_textdomain( 'pay4pay' , false, dirname( plugin_basename( __FILE__ )) . '/languages' );
 //		add_action( 'woocommerce_cart_calculate_fees' , array($this,'add_pay4payment' ) , 99 ); // make sure this is the last fee eing added
 		add_action( 'woocommerce_calculate_totals' , array($this,'add_pay4payment' ) , 99 );
 		add_action( 'woocommerce_review_order_after_submit' , array($this,'print_autoload_js') );
@@ -86,34 +86,9 @@ jQuery(document).ready(function($){
 					$cost = floatval($settings['pay4pay_charges_fixed']);
 				
 					//  √ $this->cart_contents_total + √ $this->tax_total + √ $this->shipping_tax_total + $this->shipping_total + $this->fee_total,
-					
+					$calculation_base = 0;
 					if ( $percent = floatval($settings['pay4pay_charges_percentage']) ) {
 						
-						/*
-						// okay! Already present at calculate_fees()
-						if ( $include_cart_taxes )
-							$calculation_base = $cart->subtotal;
-						else 
-							$calculation_base = $cart->subtotal_ex_tax;
-
-						if ( $include_shipping ) {
-							// okay! Already present at calculate_fees()
-							$calculation_base += $cart->shipping_total;
-							if ( $include_cart_taxes ) {
-								$calculation_base += $cart->shipping_tax_total;
-							}
-
-						}
-
-						if ( $include_fees ) {
-							$cart_tax = $cart->subtotal - $cart->subtotal_ex_tax;
-							$fee_tax = $cart->tax_total - $cart_tax;
-							$calculation_base += $cart->fee_total;
-							if ( $include_cart_taxes )
-								$calculation_base += $fee_tax;
-							$calculation_base -= $cart->discount_total + $cart->discount_cart;
-						}
-						/*/
 						
 						$calculation_base = $cart->subtotal_ex_tax;
 						
@@ -132,7 +107,6 @@ jQuery(document).ready(function($){
 								$calculation_base += $cart->shipping_tax_total;
 						}
 						
-						//*/
 						$cost += $calculation_base * ($percent / 100 );
 						
 					}

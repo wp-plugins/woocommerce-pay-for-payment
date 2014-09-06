@@ -3,7 +3,7 @@ Contributors: podpirate
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=QFR9BVRT6SEP6
 Tags: ecommerce, woocommerce, payment gateway, fee
 Requires at least: 3.5
-Tested up to: 4.0-beta3
+Tested up to: 4.0
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -90,6 +90,11 @@ Either post it on [GitHub](https://github.com/mcguffin/wp-access-areas) or—if 
 
 
 == Changelog ==
+
+= 1.3.1 =
+Fix Admin: Payment gateway Class not found (may occur with 3rd party gateways)
+Fix: textdomain loading
+Update turkish localisation
 
 = 1.3.0 =
 Feature: Enhanced UI
