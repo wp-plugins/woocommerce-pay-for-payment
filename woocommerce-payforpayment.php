@@ -3,12 +3,10 @@
 Plugin Name: WooCommerce Pay for Payment
 Plugin URI: http://wordpress.org/plugins/woocommerce-pay-for-payment
 Description: Setup individual charges for each payment method in woocommerce.
-Version: 1.3.3
+Version: 1.3.4
 Author: Jörn Lund
 Author URI: https://github.com/mcguffin
 License: GPL
-Text Domain: pay4pay
-Domain Path: /languages/
 */
 
 /**
@@ -31,7 +29,7 @@ class Pay4Pay {
 	
 	public static function get_default_settings() {
 		return array(
-			'pay4pay_item_title' => __( 'Extra Charge' , 'pay4pay' ),
+			'pay4pay_item_title' => __( 'Extra Charge' , 'woocommerce-payforpayment' ),
 			'pay4pay_charges_fixed' => 0,
 			'pay4pay_charges_percentage' => 0,
 			'pay4pay_disable_on_free_shipping' => 'no',
@@ -48,12 +46,16 @@ class Pay4Pay {
 	}
 
 	private function __construct() {
-		load_plugin_textdomain( 'pay4pay' , false, dirname( plugin_basename( __FILE__ )) . '/languages' );
 //		add_action( 'woocommerce_cart_calculate_fees' , array($this,'add_pay4payment' ) , 99 ); // make sure this is the last fee eing added
 		add_action( 'woocommerce_calculate_totals' , array($this,'calculate_pay4payment' ) , 99 );
 		add_action( 'woocommerce_cart_calculate_fees' , array($this,'add_pay4payment' ) , 99 );
 		add_action( 'woocommerce_review_order_after_submit' , array($this,'print_autoload_js') );
 		add_action( 'admin_init' , array( &$this , 'check_wc_version' ) );
+		add_action( 'plugins_loaded' , array( &$this , 'load_textdomain' ) );
+	}
+	
+	function load_textdomain() {
+		load_plugin_textdomain( 'woocommerce-payforpayment' , false, dirname( plugin_basename( __FILE__ )) . '/languages' );
 	}
 	
 	function check_wc_version() {
